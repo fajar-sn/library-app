@@ -14,7 +14,7 @@
                         </div>
                     @endif --}}
 
-                    You are normal user!
+                    You are admin
                 </div>
             </div>
         </div>
