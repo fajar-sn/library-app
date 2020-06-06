@@ -1,0 +1,116 @@
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav .option a{
+    margin-top: 7rem;
+    position: absolute;
+    left: -150px;
+    transition: 0.3s;
+    padding: 15px;
+    width: 225px;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 0 5px 5px 0;
+}
+
+.sidenav .option span {
+    vertical-align: middle;
+}
+
+.sidenav .option img {
+    float: right;
+    vertical-align: middle;
+}
+
+.sidenav .option a:hover {
+    left: 0;
+}
+
+.sidenav .option .active{
+    left: 0;
+}
+
+#book-tracker {
+    top: 20px;
+    background-color: rgba(255, 255, 255, 0.904);
+}
+
+#catalog {
+    top: 100px;
+    background-color: rgba(255, 255, 255, 0.904);
+}
+
+#transaction {
+    top: 180px;
+    background-color: rgba(255, 255, 255, 0.904);
+}
+
+#member {
+    top: 260px;
+    background-color: rgba(255, 255, 255, 0.904);
+}
+
+.sidenav {
+    height: 100%;
+    width: 225px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(245, 233, 218);
+    overflow-x: hidden;
+    padding-top: 20px;
+    
+}
+
+.sidenav a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    display: block;
+    vertical-align: middle;
+}
+
+.sidenav img {
+    width: 20%;
+    float: right;
+    vertical-align: middle;
+}
+
+.sidenav a:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.sidenav hr.divider {
+    width: 80%;
+    border-width: 0.1rem;
+    border-color: black;
+}
+
+.sidenav h4 {
+    margin-top: 1rem;
+}
+
+.sidenav h6 {
+    margin-bottom: 6rem;
+}
+
+.sidenav .logout {
+    margin-top: 25rem;
+}
+
+.main-container {
+    margin-left: 17rem;
+    margin-top: 2rem;
+}
