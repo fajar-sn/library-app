@@ -1,11 +1,12 @@
-@extends('layouts.app')
-
+@extends('user.app')
+@section('title', 'Dashboard - Library App')
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Catalog</div>
 
                 <div class="card-body">
                     {{-- @if (session('status'))
@@ -14,7 +15,7 @@
                         </div>
                     @endif --}}
 
-                    You are normal user!
+                    
                 </div>
             </div>
         </div>

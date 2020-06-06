@@ -16,12 +16,14 @@ class CreateUsersSeeder extends Seeder
             [
                 'name' => 'Admin Fajar',
                 'email' => 'fajarsn@pens.ac.id',
+                'birthdate' => '1999-09-13',
                 'is_admin' => '1',
                 'password' => bcrypt('123456')
             ],
             [
                 'name' => 'Fajar',
                 'email' => 'fajarsn@it.student.pens.ac.id',
+                'birthdate' => '1999-09-13',
                 'is_admin' => '0',
                 'password' => bcrypt('123456')
             ],

@@ -24,7 +24,7 @@
           </div>
           <div class="form-group row">
             <label for="birthdate"><h5>{{ __('Birthdate') }}</h5></label>
-            <input id="birthdate" type="text" class="form-control datepicker datetimepicker-input" data-toggle="datetimepicker" data-target=".datepicker" name="birthdate" required>
+            <input id="birthdate" type="text" class="form-control datepicker datetimepicker-input" data-toggle="datetimepicker" data-target=".datepicker" name="birthdate" required value="{{ old('birthdate') }}" autocomplete="birthdate">
           </div>
           <div class="form-group row">
             <label for="email"><h5>{{ __('E-Mail Address') }}</h5></label>
