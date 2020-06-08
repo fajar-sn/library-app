@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
+use App\BookCategory;
+use App\Transaction;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
 
@@ -12,15 +16,36 @@ class UserController extends Controller {
     }
 
     public function index() {
-        return view('user.index');
+        $books = Book::all()->shuffle()->take(4);
+        return view('user.index', compact('books'));
     }
 
     public function showCatalog() {
-        
+        $books = Book::latest()->paginate(4);
+        return view('user.catalog', compact('books'))
+                ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function showBook(Book $book) {
+        $bookCategory = BookCategory::all()->find($book->book_category_id);
+        return view('user.showBook', compact('book', 'bookCategory'));
     }
 
     public function showTransaction() {
-        return view('user.transaction');
+        $id = Auth::id();
+        $transactions = Transaction::where('user_id', $id)->get();
+        $transactionList = [];
+        foreach($transactions as $transaction) {
+            $transactionList[$transaction->id] = [
+                'id' => $transaction->id,
+                'username' => User::where('id', $transaction->user_id)->value('name'),
+                'book_title' => Book::where('id', $transaction->book_id)->value('title'),
+                'status' => $transaction->status,
+                'created' => $transaction->created_at,
+                'return_date' => $transaction->updated_at
+            ];
+        }
+        return view('user.transaction', compact('transactionList'));
     }
 
     public function create()
@@ -32,46 +57,21 @@ class UserController extends Controller {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

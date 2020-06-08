@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use App\BookCategory;
+use App\Transaction;
+use App\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,7 +27,19 @@ class AdminController extends Controller {
     }
 
     public function showTransaction() {
-        return view('admin.transaction');
+        $transactions = Transaction::latest()->get();
+        $transactionList = [];
+        foreach($transactions as $transaction) {
+            $transactionList[$transaction->id] = [
+                'id' => $transaction->id,
+                'username' => User::where('id', $transaction->user_id)->value('name'),
+                'book_title' => Book::where('id', $transaction->book_id)->value('title'),
+                'status' => $transaction->status,
+                'created' => $transaction->created_at,
+                'return_date' => $transaction->updated_at
+            ];
+        }
+        return view('admin.transaction', compact('transactionList'));
     }
     
     public function showMember() {
@@ -107,6 +121,33 @@ class AdminController extends Controller {
         File::delete(storage_path('app/public/img/books/' . $book->cover));
         $book->delete();
         return redirect()->route('admin.catalog')->with('status', 'Book deleted successfully.');
+    }
+
+    public function createTransaction() {
+        $users = User::where('is_admin', 0)->orderBy('name', 'ASC')->get();
+        $books = Book::orderBy('title', 'ASC')->get();
+        return view('admin.createTransaction', compact('users', 'books'));
+    }
+
+    public function storeTransaction(Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'book_id' => 'required|exists:books,id',
+        ]);
+        Transaction::create([
+            'user_id' => $request->user_id,
+            'book_id' => $request->book_id,
+            'status' => 'Not returned'
+        ]);
+        return redirect()->route('admin.transaction')->with('status', 'Transaction created successfully.');
+    }
+
+    public function updateTransaction($id) {
+        $transaction = Transaction::find($id);
+        $transaction->update([
+            'status' => 'Returned'
+        ]);
+        return redirect()->route('admin.transaction')->with('status', 'Transaction updated successfully.');
     }
 
 }

@@ -4,13 +4,12 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('libraries/fontawesome/css/all.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link href="{{ asset('libraries/e-commerce/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('libraries/e-commerce/css/mdb.min.css') }}" rel="stylesheet">
   <link href="{{ asset('libraries/e-commerce/css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('libraries/fontawesome/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
   <style type="text/css">
     html,
     body,
@@ -41,7 +40,7 @@
 
   </style>
   
-  <!-- Optional JavaScript -->
+  {{-- <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -52,7 +51,7 @@
     // Animations initialization
     new WOW().init();
 
-  </script>
+  </script> --}}
 
   <title>@yield('title')</title>
   </head>
@@ -70,17 +69,17 @@
             <img src="{{ asset('img/menu_1.png') }}">
         </a>
         
-        <a href="{{ url('/admin/catalog') }}" class="{{ (request()->is('admin/catalog')) ? 'active' : '' }}" id="catalog">
+        <a href="{{ url('/admin/catalog/') }}" class="{{ (request()->is('admin/catalog/*')) ? 'active' : '' }}" id="catalog">
             <span>Catalog </span>
             <img src="{{ asset('img/menu_2.png') }}">
         </a>
 
-        <a href="{{ url('/admin/transaction') }}" class="{{ (request()->is('admin/transaction')) ? 'active' : '' }}" id="transaction">
+        <a href="{{ url('/admin/transaction/') }}" class="{{ (request()->is('admin/transaction/*')) ? 'active' : '' }}" id="transaction">
             <span>Transaction </span>
             <img src="{{ asset('img/menu_3.png') }}">
         </a>
 
-        <a href="{{ url('/admin/member') }}" class="{{ (request()->is('admin/member')) ? 'active' : '' }}" id="member">
+        <a href="{{ url('/admin/member/') }}" class="{{ (request()->is('admin/member/*')) ? 'active' : '' }}" id="member">
             <span>Member </span>
             <img src="{{ asset('img/menu_4.png') }}">
         </a>
@@ -95,6 +94,17 @@
     <div class="main-container">
         @yield('content')
     </div>
-      
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="{{ asset('libraries/e-commerce/js/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libraries/e-commerce/js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libraries/e-commerce/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libraries/e-commerce/js/mdb.min.js') }}"></script>
+    <script type="text/javascript">
+      // Animations initialization
+      new WOW().init();
+    </script>
+    <script src="{{ asset('js/index.js') }}"></script>
   </body>
 </html>
