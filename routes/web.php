@@ -23,10 +23,10 @@ Route::prefix('admin')->group(function() {
     Route::get('/catalog', 'AdminController@index')->name('admin.catalog')->middleware('is_admin');
     Route::get('/catalog/create', 'AdminController@create')->name('admin.create')->middleware('is_admin');
     Route::get('/catalog/{book}', 'AdminController@show')->name('admin.show')->middleware('is_admin');
+    Route::get('/catalog/{book}/edit', 'AdminController@edit')->name('admin.edit')->middleware('is_admin');
     Route::post('/catalog', 'AdminController@store')->name('admin.store')->middleware('is_admin');
-    // Route::put('/catalog/{book}', 'AdminController@update')->name('admin.update')->middleware('is_admin');
-    // Route::get('/catalog/{book}/edit', 'AdminController@edit')->name('admin.edit')->middleware('is_admin');
-    // Route::delete('/catalog/{book}', 'AdminController@destroy')->name('admin.destroy')->middleware('is_admin');
+    Route::delete('/catalog/{book}', 'AdminController@destroy')->name('admin.destroy')->middleware('is_admin');
+    Route::put('/catalog/{book}', 'AdminController@update')->name('admin.update')->middleware('is_admin');
 
     Route::get('/transaction', 'AdminController@showTransaction')->name('admin.transaction')->middleware('is_admin');
     Route::get('/member', 'AdminController@showMember')->name('admin.member')->middleware('is_admin');

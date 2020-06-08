@@ -47,7 +47,7 @@
 </head>
 
 <body>
-  
+
   <!--Side Navbar-->
   <div class="sidenav wow fadeIn">
     <h4 class="font-weight-bold text-center text-uppercase">Library Apps</h4>
@@ -82,62 +82,75 @@
 
   <!--Main layout-->
   <main class="main-container">
-    <h2 class="wow fadeIn">Catalogue</h2>
-    <a href="{{ url('/admin/catalog/create') }}" class="btn btn-amber text-center mb-4 wow fadeIn">Add new book</a>
-
-    <!--Section: Products v.3-->
-    <section class="text-center mb-4">
+    <h2 class="wow fadeIn">Product Detail</h2>
+    <a href="{{ url('/admin/catalog') }}" class="btn btn-yellow text-center mb-4 wow fadeIn">Back</a>
+    @if (session('status'))
+      <div class="alert alert-success">
+          {{ session('status') }}
+      </div>
+    @endif
+    <!--Main layout-->
+    <div class="container dark-grey-text mt-3">
 
       <!--Grid row-->
       <div class="row wow fadeIn">
-        @foreach ($books as $book)
-            
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4">
 
-            <!--Card-->
-            <div class="card">
+        <!--Grid column-->
+        <div class="col-md-3 mb-4">
+          <img src="{{ asset('storage/img/books/' . $book->cover) }}" class="img-fluid" alt="">
+        </div>
+        <!--Grid column-->
 
-              <!--Card image-->
-              <div class="view overlay">
-                <img src="{{ asset('storage/img/books/' . $book->cover) }}" class="card-img-top px-2 pt-2" alt="{{ $book->title }}">
-                <a href="{{ route('admin.show', $book->id) }}">
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-              <!--Card image-->
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
 
-              <!--Card content-->
-              <div class="card-body text-center">
-                <!--Category & Title-->
-                <a href="{{ route('admin.show', $book->id) }}" class="grey-text">
-                  <h5>{{ $book->author }}</h5>
-                  {{-- <h5>{{ dump($book->category) }}</h5> --}}
-                </a>
-                <h5>
-                  <strong>
-                    <a href="{{ route('admin.show', $book->id) }}" class="dark-grey-text">{{ $book->title }}</a>
-                  </strong>
-                </h5>
+          <!--Content-->
+          <div class="p-4">
 
-              </div>
-              <!--Card content-->
-
+            <div class="mb-3">
+              <span class="badge purple mr-1">{{ $bookCategory->name }}</span>
             </div>
-            <!--Card-->
+
+            <p class="lead font-weight-bold">{{ $book->title }}</p>
+
+            <table class="table table-borderless table-sm table-hover">
+              <tbody>
+                <tr>
+                  <th scope="row">Author</th>
+                  <td>{{ $book->author }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Location</th>
+                  <td>{{ $book->location }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Publisher</th>
+                  <td>{{ $book->publisher }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Print Year</th>
+                  <td>{{ $book->print_year }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <form class="d-flex justify-content-left" action="{{ route('admin.destroy', $book->id) }}" method="POST">
+              @method('delete')
+              @csrf
+              <a href="{{ route('admin.edit', $book->id) }}" class="btn btn-primary btn-md my-0 p">Edit</a>
+              <button class="btn btn-danger btn-md my-0 p" type="submit">Delete</button>
+            </form>
 
           </div>
-          <!--Grid column-->
+          <!--Content-->
 
-        @endforeach
+        </div>
+        <!--Grid column-->
 
       </div>
       <!--Grid row-->
 
-    </section>
-    <!--Section: Products v.3-->
-
-    {!! $books->links() !!}
+    </div>
 
   </main>
   <!--Main layout-->

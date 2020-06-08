@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use App\BookCategory;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller {
 
@@ -59,15 +61,18 @@ class AdminController extends Controller {
                 'book_category_id' => $request->book_category_id,
             ]);
         }
-        return redirect()->route('admin.catalog')->with('success', 'Book created successfully.');
+        return redirect()->route('admin.catalog')->with('status', 'Book created successfully.');
     }
 
     public function show(Book $book) {
-        return view('book.show', compact('book'));
+        $bookCategory = BookCategory::all()->find($book->book_category_id);
+        return view('admin.show', compact('book', 'bookCategory'));
     }
 
     public function edit(Book $book) {
-        return view('book.edit', compact('book'));
+        $bookCategory = BookCategory::orderBy('name', 'ASC')->get();
+        $currentBookCategory = BookCategory::all()->find($book->book_category_id);
+        return view('admin.editBook', compact('book', 'bookCategory', 'currentBookCategory'));
     }
 
     public function update(Request $request, Book $book) {
@@ -76,16 +81,32 @@ class AdminController extends Controller {
             'author' => 'required',
             'location' => 'required',
             'publisher' => 'required',
-            'print_year' => 'required',
-            'book_category_id' => 'required',
+            'print_year' => 'required|integer',
+            'book_category_id' => 'required|exists:book_categories,id',
         ]);
-        $book::update($request->all());
-        return redirect()->route('admin.catalog')->with('success', 'Book updated successfully.');
+        if($request->hasFile('image')) {
+            File::delete(storage_path('app/public/img/books/' . $book->cover));
+            $file = $request->file('image');
+            $filename = rand() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/img/books', $filename);
+            $book->update([
+                'title' => $request->title,
+                'cover' => $filename,
+                'author' => $request->author,
+                'location' => $request->location,
+                'publisher' => $request->publisher,
+                'print_year' => $request->print_year,
+                'book_category_id' => $request->book_category_id,
+            ]);
+        } else
+            $book->update($request->all());
+        return redirect()->route('admin.show', $book->id)->with('status', 'Book updated successfully.');
     }
 
     public function destroy(Book $book) {
+        File::delete(storage_path('app/public/img/books/' . $book->cover));
         $book->delete();
-        return redirect()->route('admin.catalog')->with('success', 'Book deleted successfully.');
+        return redirect()->route('admin.catalog')->with('status', 'Book deleted successfully.');
     }
 
 }
